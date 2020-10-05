@@ -20,7 +20,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <a href="<?php the_permalink();?>"><h2 class="post-title"><?php the_title();?></h2></a>
+                    <h2 class="post-title"><?php the_title();?></h2>
                 </div>
             </div>
             <div class="row">
@@ -34,10 +34,13 @@
                 <div class="col-md-8">
                     <?php 
                         if ( has_post_thumbnail() ) {
+                            $thumbnailurl = get_the_post_thumbnail_url(null,"large");
+                            printf ('<a href="%s" data-featherlight="image">', $thumbnailurl);
                             the_post_thumbnail('large', array('class' => 'img-fluid'));
+                            echo "</a>";
                         }
                     ?>
-                    <?php the_excerpt();?>
+                    <?php the_content();?>
                 </div>
             </div>
 
@@ -46,21 +49,29 @@
     <?php endwhile;?>
 </div>
 
-<section class="pagination_area">
+<section class="overfooter_area">
     <div class="container">
-        <div class="pagination">
-            <div class="row">
-                <div class="col-md-12 post_pagi">
-                    <?php 
-                        the_posts_pagination(array(
-                            'prev_text' => __( 'Newer', 'bita' ),
-                            'next_text' => __( 'Older', 'bita' ),
-                            'screen_reader_text' => " ",
-                        ));
+        <div class="row">
+            <div class="col-md-4">
+                <div class="widget_one">
+                    <?php
+                        if(is_active_sidebar("sidebar1")){
+                            dynamic_sidebar("sidebar1");
+                        }
                     ?>
                 </div>
             </div>
+            <div class="col-md-4">
+                <div class="widget_two">
+                   <?php
+                        if(is_active_sidebar("sidebar2")){
+                            dynamic_sidebar("sidebar2");
+                        }
+                    ?>
+                </div>
+            </div>
+            <div class="col-md-4"></div>
         </div>
     </div>
-</section> 
+</section>
 <?php get_footer();?>
