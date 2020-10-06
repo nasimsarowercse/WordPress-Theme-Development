@@ -99,3 +99,19 @@ h2.post-title {
 	background-size: cover;
 	padding: 170px 0px;
 }
+
+.author_area{}
+.author{
+    border: 2px solid #282923;
+}
+.author_image img{
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+h1.fourzerofour{
+    text-align: center;
+}

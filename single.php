@@ -14,7 +14,7 @@
     </div>
 </section>
 
-<div class="posts" <?php post_class();?>>
+<div <?php post_class();?>>
     <?php while(have_posts()) : the_post();?>
     <div class="post">
         <div class="container">
@@ -32,15 +32,36 @@
                     <?php echo get_the_tag_list('<ul class="list-unstyled"><li>','</li><li>','</li></ul>');?>
                 </div>
                 <div class="col-md-8">
+                    <div class="slider">
+                        <?php
+                        if(class_exists('Attachments')){ 
+                            $attachments = new Attachments( 'slider' ); 
+                            if( $attachments->exist() ) {
+                                while( $attachments->get() ) { 
+                                    ?>
+                                        <div>
+                                            <?php echo $attachments->image( 'large' )?>
+                                        </div>
+                                    <?php
+     
+                                }
+                            }
+                        }
+                        ?>
+                    </div>
                     <?php 
-                        if ( has_post_thumbnail() ) {
-                            $thumbnailurl = get_the_post_thumbnail_url(null,"large");
-                            printf ('<a href="%s" data-featherlight="image">', $thumbnailurl);
-                            the_post_thumbnail('large', array('class' => 'img-fluid'));
-                            echo "</a>";
+                        if(!class_exists('Attachments')){
+                            if ( has_post_thumbnail() ) {
+                                $thumbnailurl = get_the_post_thumbnail_url(null,"large");
+                                printf ('<a href="%s" data-featherlight="image">', $thumbnailurl);
+                                the_post_thumbnail('large', array('class' => 'img-fluid'));
+                                echo "</a>";
+                            }
                         }
                     ?>
                     <?php the_content();?>
+
+                    <?php wp_link_pages();?>
 
                     <?php 
                         next_post_link();
@@ -53,6 +74,26 @@
     </div>
     <?php endwhile;?>
 </div>
+
+<section class="author_area">
+    <div class="container">
+        <div class="author">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="author_image">
+                        <?php echo get_avatar(get_the_author_meta('id'));?>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="author_details">
+                        <h3><?php echo get_the_author_meta('display_name');?></h3>
+                        <p><?php echo get_the_author_meta('description');?></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 <section class="comment_area">
     <div class="container">
