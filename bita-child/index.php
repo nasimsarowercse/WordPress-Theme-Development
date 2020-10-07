@@ -1,10 +1,5 @@
-<?php 
-/*
-    Template Name: About Page
-*/
-?>
 <?php get_header();?>
-<?php get_template_part('/template-parts/about/hero-page');?>
+<?php get_template_part('/template-parts/common/hero');?>
 
 <section class="menu_area">
     <div class="container">
@@ -19,13 +14,13 @@
     </div>
 </section>
 
-<div class="posts" <?php post_class();?>>
+<div <?php post_class();?>>
     <?php while(have_posts()) : the_post();?>
     <div class="post">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h2 class="post-title"><?php the_title();?></h2>
+                    <a href="<?php the_permalink();?>"><h2 class="post-title"><?php the_title();?></h2></a>
                 </div>
             </div>
             <div class="row">
@@ -35,21 +30,28 @@
                         <?php echo get_the_date( 'D M j' );?>
                     </p>
                     <?php echo get_the_tag_list('<ul class="list-unstyled"><li>','</li><li>','</li></ul>');?>
+
+                    <?php
+                    $bitaformat = get_post_format();
+                    if($bitaformat == 'audio'){
+                        echo '<span class="dashicons dashicons-media-audio"></span>';
+                    }else if($bitaformat == 'video'){
+                        echo '<span class="dashicons dashicons-video-alt3"></span>';
+                    }else if($bitaformat == 'image'){
+                        echo '<span class="dashicons dashicons-format-image"></span>';
+                    }else if($bitaformat == 'link'){
+                        echo '<span class="dashicons dashicons-admin-links"></span>';
+                    }
+                    ?>
+
                 </div>
                 <div class="col-md-8">
                     <?php 
                         if ( has_post_thumbnail() ) {
-                            $thumbnailurl = get_the_post_thumbnail_url(null,"large");
-                            printf ('<a href="%s" data-featherlight="image">', $thumbnailurl);
                             the_post_thumbnail('large', array('class' => 'img-fluid'));
-                            echo "</a>";
                         }
                     ?>
-                    <?php the_content();?>
-
-                    <div class="time">
-                        <?php echo bita_time_today();?>
-                    </div>
+                    <?php the_excerpt();?>
                 </div>
             </div>
 
@@ -58,29 +60,21 @@
     <?php endwhile;?>
 </div>
 
-<section class="overfooter_area">
+<section class="pagination_area">
     <div class="container">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="widget_one">
-                    <?php
-                        if(is_active_sidebar("sidebar1")){
-                            dynamic_sidebar("sidebar1");
-                        }
+        <div class="pagination">
+            <div class="row">
+                <div class="col-md-12 post_pagi">
+                    <?php 
+                        the_posts_pagination(array(
+                            'prev_text' => __( 'Newer', 'bita' ),
+                            'next_text' => __( 'Older', 'bita' ),
+                            'screen_reader_text' => " ",
+                        ));
                     ?>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="widget_two">
-                   <?php
-                        if(is_active_sidebar("sidebar2")){
-                            dynamic_sidebar("sidebar2");
-                        }
-                    ?>
-                </div>
-            </div>
-            <div class="col-md-4"></div>
         </div>
     </div>
-</section>
+</section> 
 <?php get_footer();?>

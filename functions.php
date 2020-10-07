@@ -58,8 +58,11 @@ function bita_sidebar() {
 }
 add_action('widgets_init', 'bita_sidebar');
 
-
-
+if(!function_exists('bita_time_today')){
+function bita_time_today(){
+    echo date("d/m/y");
+}
+}
 
 
 
