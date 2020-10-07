@@ -15,6 +15,9 @@ function bita_bootstraping(){
 		'footermenu' => __( 'Footer Menu', 'bita' )
 	) );
 
+    add_image_size('bita_square', 500, 500, true);
+    add_image_size('bita_portait', 300, 500, true);
+    add_image_size('bita_landscape', 500, 300, array('top','left'));
 }
 add_action('after_setup_theme', 'bita_bootstraping');
 
